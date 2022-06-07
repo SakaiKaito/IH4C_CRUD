@@ -38,6 +38,9 @@ datasource db {
   createdAt DateTime @default(now())
   /// @HideField({ input: true, output: true })
   updatedAt DateTime @updatedAt
+
+  author   User @relation(fields: [authorId], references: [id])
+  authorId Int
 }
 
 model User {
@@ -56,4 +59,5 @@ model User {
  createdAt DateTime @default(now())
  /// @HideField({ input: true, output: true })
  updatedAt DateTime @updatedAt
+ Todos Todo[]
 }
