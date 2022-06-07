@@ -2,7 +2,7 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
+type Todo {
   id: ID!
 
   """@Validator.@IsNotEmpty()"""
@@ -11,7 +11,7 @@ type User {
 }
 
 type Query {
-  todo(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): User!
+  todo(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): Todo!
 }
 
 input UserWhereInput {
@@ -97,8 +97,10 @@ enum UserScalarFieldEnum {
 }
 
 type Mutation {
-  createTodo(data: UserCreateInput!): User!
-  update(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): User!
+  createTodo(data: UserCreateInput!): Todo!
+  updatetodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo!
+  deletetodo(where: TodoWhereUniqueInput!): Todo!
+  findall(where: TodoWhereInput, orderBy: [TodoOrderByWithRelationInput!], cursor: TodoWhereUniqueInput, take: Int, skip: Int, distinct: [TodoScalarFieldEnum!]): [Todo!]!
 }
 
 input UserCreateInput {
@@ -117,4 +119,27 @@ input StringFieldUpdateOperationsInput {
 
 input TodoWhereUniqueInput {
   id: Int
+}
+
+input TodoWhereInput {
+  AND: [TodoWhereInput!]
+  OR: [TodoWhereInput!]
+  NOT: [TodoWhereInput!]
+  id: IntFilter
+  title: StringFilter
+  detail: StringFilter
+}
+
+input TodoOrderByWithRelationInput {
+  id: SortOrder
+  title: SortOrder
+  detail: SortOrder
+}
+
+enum TodoScalarFieldEnum {
+  id
+  title
+  detail
+  createdAt
+  updatedAt
 }
