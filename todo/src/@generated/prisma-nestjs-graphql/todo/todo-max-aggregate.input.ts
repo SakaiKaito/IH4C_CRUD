@@ -19,4 +19,7 @@ export class TodoMaxAggregateInput {
 
     @HideField()
     updatedAt?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    authorId?: true;
 }

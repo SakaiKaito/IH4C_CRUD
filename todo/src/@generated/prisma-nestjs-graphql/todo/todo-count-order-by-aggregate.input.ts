@@ -20,4 +20,7 @@ export class TodoCountOrderByAggregateInput {
 
     @HideField()
     updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    authorId?: keyof typeof SortOrder;
 }

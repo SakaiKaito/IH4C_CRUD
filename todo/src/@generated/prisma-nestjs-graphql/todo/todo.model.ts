@@ -2,6 +2,8 @@ import { Field } from '@nestjs/graphql';
 import { ObjectType } from '@nestjs/graphql';
 import { ID } from '@nestjs/graphql';
 import { HideField } from '@nestjs/graphql';
+import { User } from '../user/user.model';
+import { Int } from '@nestjs/graphql';
 
 @ObjectType()
 export class Todo {
@@ -23,4 +25,10 @@ export class Todo {
 
     @HideField()
     updatedAt!: Date;
+
+    @Field(() => User, {nullable:false})
+    author?: User;
+
+    @Field(() => Int, {nullable:false})
+    authorId!: number;
 }

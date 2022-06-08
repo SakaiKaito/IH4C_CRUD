@@ -2,6 +2,7 @@ import { Field } from '@nestjs/graphql';
 import { InputType } from '@nestjs/graphql';
 import { SortOrder } from '../prisma/sort-order.enum';
 import { HideField } from '@nestjs/graphql';
+import { TodoOrderByRelationAggregateInput } from '../todo/todo-order-by-relation-aggregate.input';
 
 @InputType()
 export class UserOrderByWithRelationInput {
@@ -10,14 +11,23 @@ export class UserOrderByWithRelationInput {
     id?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    title?: keyof typeof SortOrder;
+    email?: keyof typeof SortOrder;
 
     @Field(() => SortOrder, {nullable:true})
-    detail?: keyof typeof SortOrder;
+    name?: keyof typeof SortOrder;
+
+    @Field(() => SortOrder, {nullable:true})
+    password?: keyof typeof SortOrder;
+
+    @HideField()
+    hashedRefreshToken?: keyof typeof SortOrder;
 
     @HideField()
     createdAt?: keyof typeof SortOrder;
 
     @HideField()
     updatedAt?: keyof typeof SortOrder;
+
+    @Field(() => TodoOrderByRelationAggregateInput, {nullable:true})
+    Todos?: TodoOrderByRelationAggregateInput;
 }

@@ -26,6 +26,9 @@ export class TodoOrderByWithAggregationInput {
     @HideField()
     updatedAt?: keyof typeof SortOrder;
 
+    @Field(() => SortOrder, {nullable:true})
+    authorId?: keyof typeof SortOrder;
+
     @Field(() => TodoCountOrderByAggregateInput, {nullable:true})
     _count?: TodoCountOrderByAggregateInput;
 

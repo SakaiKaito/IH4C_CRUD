@@ -22,4 +22,7 @@ export class TodoUncheckedCreateInput {
 
     @HideField()
     updatedAt?: Date | string;
+
+    @Field(() => Int, {nullable:false})
+    authorId!: number;
 }

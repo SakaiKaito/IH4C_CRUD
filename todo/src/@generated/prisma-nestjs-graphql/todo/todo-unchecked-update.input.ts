@@ -22,4 +22,7 @@ export class TodoUncheckedUpdateInput {
 
     @HideField()
     updatedAt?: DateTimeFieldUpdateOperationsInput;
+
+    @Field(() => IntFieldUpdateOperationsInput, {nullable:true})
+    authorId?: IntFieldUpdateOperationsInput;
 }

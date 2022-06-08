@@ -15,10 +15,16 @@ export class UserGroupBy {
     id!: number;
 
     @Field(() => String, {nullable:false})
-    title!: string;
+    email!: string;
 
     @Field(() => String, {nullable:false})
-    detail!: string;
+    name!: string;
+
+    @HideField()
+    password!: string;
+
+    @HideField()
+    hashedRefreshToken?: string;
 
     @HideField()
     createdAt!: Date | string;

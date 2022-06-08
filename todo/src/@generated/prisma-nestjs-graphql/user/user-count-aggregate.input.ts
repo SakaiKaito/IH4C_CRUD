@@ -9,10 +9,16 @@ export class UserCountAggregateInput {
     id?: true;
 
     @Field(() => Boolean, {nullable:true})
-    title?: true;
+    email?: true;
 
     @Field(() => Boolean, {nullable:true})
-    detail?: true;
+    name?: true;
+
+    @Field(() => Boolean, {nullable:true})
+    password?: true;
+
+    @HideField()
+    hashedRefreshToken?: true;
 
     @HideField()
     createdAt?: true;

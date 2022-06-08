@@ -10,10 +10,16 @@ export class UserMinAggregate {
     id?: number;
 
     @Field(() => String, {nullable:true})
-    title?: string;
+    email?: string;
 
     @Field(() => String, {nullable:true})
-    detail?: string;
+    name?: string;
+
+    @HideField()
+    password?: string;
+
+    @HideField()
+    hashedRefreshToken?: string;
 
     @HideField()
     createdAt?: Date | string;

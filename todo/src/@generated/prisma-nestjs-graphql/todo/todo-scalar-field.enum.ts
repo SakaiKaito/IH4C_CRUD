@@ -5,7 +5,8 @@ export enum TodoScalarFieldEnum {
     title = "title",
     detail = "detail",
     createdAt = "createdAt",
-    updatedAt = "updatedAt"
+    updatedAt = "updatedAt",
+    authorId = "authorId"
 }
 
 

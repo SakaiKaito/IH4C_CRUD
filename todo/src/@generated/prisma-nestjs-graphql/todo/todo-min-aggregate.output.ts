@@ -20,4 +20,7 @@ export class TodoMinAggregate {
 
     @HideField()
     updatedAt?: Date | string;
+
+    @Field(() => Int, {nullable:true})
+    authorId?: number;
 }

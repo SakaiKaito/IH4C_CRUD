@@ -31,4 +31,7 @@ export class TodoScalarWhereWithAggregatesInput {
 
     @HideField()
     updatedAt?: DateTimeWithAggregatesFilter;
+
+    @Field(() => IntWithAggregatesFilter, {nullable:true})
+    authorId?: IntWithAggregatesFilter;
 }

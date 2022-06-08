@@ -26,6 +26,9 @@ export class TodoGroupBy {
     @HideField()
     updatedAt!: Date | string;
 
+    @Field(() => Int, {nullable:false})
+    authorId!: number;
+
     @Field(() => TodoCountAggregate, {nullable:true})
     _count?: TodoCountAggregate;
 

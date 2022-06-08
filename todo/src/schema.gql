@@ -2,25 +2,48 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type UserCount {
+  Todos: Int!
+}
+
+type User {
+  id: ID!
+  email: String!
+  name: String!
+  Todos: [Todo!]
+  _count: UserCount!
+}
+
 type Todo {
   id: ID!
 
   """@Validator.@IsNotEmpty()"""
   title: String!
   detail: String!
+  author: User!
+  authorId: Int!
+}
+
+type LoginResponse {
+  access_token: String!
+  refresh_token: String!
+  user: User!
 }
 
 type Query {
-  todo(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): Todo!
+  todo(where: TodoWhereInput, orderBy: [TodoOrderByWithRelationInput!], cursor: TodoWhereUniqueInput, take: Int, skip: Int, distinct: [TodoScalarFieldEnum!]): Todo!
+  user(where: UserWhereInput, orderBy: [UserOrderByWithRelationInput!], cursor: UserWhereUniqueInput, take: Int, skip: Int, distinct: [UserScalarFieldEnum!]): User
 }
 
-input UserWhereInput {
-  AND: [UserWhereInput!]
-  OR: [UserWhereInput!]
-  NOT: [UserWhereInput!]
+input TodoWhereInput {
+  AND: [TodoWhereInput!]
+  OR: [TodoWhereInput!]
+  NOT: [TodoWhereInput!]
   id: IntFilter
   title: StringFilter
   detail: StringFilter
+  author: UserRelationFilter
+  authorId: IntFilter
 }
 
 input IntFilter {
@@ -73,10 +96,34 @@ input NestedStringFilter {
   not: NestedStringFilter
 }
 
-input UserOrderByWithRelationInput {
+input UserRelationFilter {
+  is: UserWhereInput
+  isNot: UserWhereInput
+}
+
+input UserWhereInput {
+  AND: [UserWhereInput!]
+  OR: [UserWhereInput!]
+  NOT: [UserWhereInput!]
+  id: IntFilter
+  email: StringFilter
+  name: StringFilter
+  password: StringFilter
+  Todos: TodoListRelationFilter
+}
+
+input TodoListRelationFilter {
+  every: TodoWhereInput
+  some: TodoWhereInput
+  none: TodoWhereInput
+}
+
+input TodoOrderByWithRelationInput {
   id: SortOrder
   title: SortOrder
   detail: SortOrder
+  author: UserOrderByWithRelationInput
+  authorId: SortOrder
 }
 
 enum SortOrder {
@@ -84,56 +131,20 @@ enum SortOrder {
   desc
 }
 
-input UserWhereUniqueInput {
-  id: Int
+input UserOrderByWithRelationInput {
+  id: SortOrder
+  email: SortOrder
+  name: SortOrder
+  password: SortOrder
+  Todos: TodoOrderByRelationAggregateInput
 }
 
-enum UserScalarFieldEnum {
-  id
-  title
-  detail
-  createdAt
-  updatedAt
-}
-
-type Mutation {
-  createTodo(data: UserCreateInput!): Todo!
-  updatetodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo!
-  deletetodo(where: TodoWhereUniqueInput!): Todo!
-  findall(where: TodoWhereInput, orderBy: [TodoOrderByWithRelationInput!], cursor: TodoWhereUniqueInput, take: Int, skip: Int, distinct: [TodoScalarFieldEnum!]): [Todo!]!
-}
-
-input UserCreateInput {
-  title: String!
-  detail: String!
-}
-
-input TodoUpdateInput {
-  title: StringFieldUpdateOperationsInput
-  detail: StringFieldUpdateOperationsInput
-}
-
-input StringFieldUpdateOperationsInput {
-  set: String
+input TodoOrderByRelationAggregateInput {
+  _count: SortOrder
 }
 
 input TodoWhereUniqueInput {
   id: Int
-}
-
-input TodoWhereInput {
-  AND: [TodoWhereInput!]
-  OR: [TodoWhereInput!]
-  NOT: [TodoWhereInput!]
-  id: IntFilter
-  title: StringFilter
-  detail: StringFilter
-}
-
-input TodoOrderByWithRelationInput {
-  id: SortOrder
-  title: SortOrder
-  detail: SortOrder
 }
 
 enum TodoScalarFieldEnum {
@@ -142,4 +153,111 @@ enum TodoScalarFieldEnum {
   detail
   createdAt
   updatedAt
+  authorId
+}
+
+input UserWhereUniqueInput {
+  id: Int
+  email: String
+}
+
+enum UserScalarFieldEnum {
+  id
+  email
+  name
+  password
+  hashedRefreshToken
+  createdAt
+  updatedAt
+}
+
+type Mutation {
+  createTodo(data: TodoCreateInput!): Todo!
+  updatetodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo!
+  deletetodo(where: TodoWhereUniqueInput!): Todo!
+  findall(where: TodoWhereInput, orderBy: [TodoOrderByWithRelationInput!], cursor: TodoWhereUniqueInput, take: Int, skip: Int, distinct: [TodoScalarFieldEnum!]): [Todo!]!
+  createUser(data: UserCreateInput!): User!
+  login(loginUserInput: LoginUserInput!): LoginResponse!
+  refreshToken: LoginResponse!
+  logout: Boolean!
+}
+
+input TodoCreateInput {
+  title: String!
+  detail: String!
+  author: UserCreateNestedOneWithoutTodosInput!
+}
+
+input UserCreateNestedOneWithoutTodosInput {
+  create: UserCreateWithoutTodosInput
+  connectOrCreate: UserCreateOrConnectWithoutTodosInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutTodosInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+input UserCreateOrConnectWithoutTodosInput {
+  where: UserWhereUniqueInput!
+  create: UserCreateWithoutTodosInput!
+}
+
+input TodoUpdateInput {
+  title: StringFieldUpdateOperationsInput
+  detail: StringFieldUpdateOperationsInput
+  author: UserUpdateOneRequiredWithoutTodosInput
+}
+
+input StringFieldUpdateOperationsInput {
+  set: String
+}
+
+input UserUpdateOneRequiredWithoutTodosInput {
+  create: UserCreateWithoutTodosInput
+  connectOrCreate: UserCreateOrConnectWithoutTodosInput
+  upsert: UserUpsertWithoutTodosInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutTodosInput
+}
+
+input UserUpsertWithoutTodosInput {
+  update: UserUpdateWithoutTodosInput!
+  create: UserCreateWithoutTodosInput!
+}
+
+input UserUpdateWithoutTodosInput {
+  email: StringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  password: StringFieldUpdateOperationsInput
+}
+
+input UserCreateInput {
+  email: String!
+  name: String!
+  password: String!
+  Todos: TodoCreateNestedManyWithoutAuthorInput
+}
+
+input TodoCreateNestedManyWithoutAuthorInput {
+  create: [TodoCreateWithoutAuthorInput!]
+  connectOrCreate: [TodoCreateOrConnectWithoutAuthorInput!]
+  connect: [TodoWhereUniqueInput!]
+}
+
+input TodoCreateWithoutAuthorInput {
+  title: String!
+  detail: String!
+}
+
+input TodoCreateOrConnectWithoutAuthorInput {
+  where: TodoWhereUniqueInput!
+  create: TodoCreateWithoutAuthorInput!
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
 }

@@ -22,5 +22,8 @@ export class TodoCountAggregate {
     updatedAt!: number;
 
     @Field(() => Int, {nullable:false})
+    authorId!: number;
+
+    @Field(() => Int, {nullable:false})
     _all!: number;
 }

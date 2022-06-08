@@ -21,5 +21,8 @@ export class TodoCountAggregateInput {
     updatedAt?: true;
 
     @Field(() => Boolean, {nullable:true})
+    authorId?: true;
+
+    @Field(() => Boolean, {nullable:true})
     _all?: true;
 }
