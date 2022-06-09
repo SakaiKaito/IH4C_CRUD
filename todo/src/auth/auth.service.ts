@@ -26,6 +26,7 @@ export class AuthService {
 
   async login(user: User): Promise<LoginResponse> {
       const tokens = await this.getTokens(user);
+      await this.updateHashedRefreshToken(user, tokens.refresh_token);
 
     return {
         ...tokens,

@@ -11,7 +11,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 export class UsersResolver {
     constructor(private readonly userService: UsersService) {}
 
-    @Query(() => User ,{ nullable: true })
+    @Query(() => User )
     @UseGuards(JwtAuthGuard)
     user(
         @Args() args: FindFirstUserArgs
