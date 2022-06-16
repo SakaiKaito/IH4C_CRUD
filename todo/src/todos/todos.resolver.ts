@@ -1,15 +1,24 @@
-import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver, Subscription } from '@nestjs/graphql';
 import { Todo } from 'src/@generated/prisma-nestjs-graphql/todo/todo.model';
 import { TodosService } from 'src/todos/todos.service';
 import { FindFirstTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/find-first-todo.args';
 import { CreateOneTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/create-one-todo.args';
 import { UpdateOneTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/update-one-todo.args';
 import { DeleteOneTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/delete-one-todo.args';
-import { FindManyTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/find-many-todo.args';
+import { FindManyTodoArgs } from 'src/@generated/prisma-nestjs-graphql/todo/find-many-todo.args';import { Post } from '@nestjs/common';
 
+import { PubSub } from 'graphql-subscriptions';
+import { User } from '@prisma/client';
+
+const pubsub = new PubSub();
 @Resolver(() => Todo)
 export class TodosResolver {
     constructor(private readonly todoService: TodosService) {}
+
+    @Subscription(() => Todo,{name:'todoAdded'},)
+    async todoAdded(){
+        return pubsub.asyncIterator('todoAdded');
+    }
 
     @Query(() => Todo)
     todo(
@@ -22,8 +31,8 @@ export class TodosResolver {
     async createTodo(
         @Args() args: CreateOneTodoArgs
     ) {
-//        args.data.password = await bcrypt.hash(args.data.password, 10);
-        return this.todoService.createTodo(args);
+        pubsub.publish('todoAdded', { todoAdded: this.todoService.createTodo(args)});
+        return this.todoService.createTodo(args);    
     }
 
     @Mutation(() => Todo)

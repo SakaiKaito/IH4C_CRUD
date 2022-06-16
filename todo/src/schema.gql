@@ -261,3 +261,7 @@ input LoginUserInput {
   email: String!
   password: String!
 }
+
+type Subscription {
+  todoAdded: Todo!
+}
